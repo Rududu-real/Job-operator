@@ -1,0 +1,18 @@
+apiVersion: batch.platform.upstage.ai/v1
+kind: TaskV2
+metadata:
+  name: taskv2-sample
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: Never
+

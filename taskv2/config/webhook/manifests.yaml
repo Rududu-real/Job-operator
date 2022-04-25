@@ -1,0 +1,54 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-batch-platform-upstage-ai-v1-taskv2
+  failurePolicy: Fail
+  name: mtaskv2.kb.io
+  rules:
+  - apiGroups:
+    - batch.platform.upstage.ai
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - taskv2s
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-batch-platform-upstage-ai-v1-taskv2
+  failurePolicy: Fail
+  name: vtaskv2.kb.io
+  rules:
+  - apiGroups:
+    - batch.platform.upstage.ai
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - taskv2s
+  sideEffects: None
